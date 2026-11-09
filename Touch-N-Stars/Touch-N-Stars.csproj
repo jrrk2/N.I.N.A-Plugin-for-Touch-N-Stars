@@ -14,6 +14,8 @@
     <!-- Workaround for ToastNotifications localization issue on German systems -->
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- PINS: built against the pins source, with its Celestron Origin drivers -->
+    <DefineConstants Condition="'$(UsePinsSource)' == 'true'">$(DefineConstants);PINS</DefineConstants>
     <DefaultItemExcludes Condition="'$(UsePinsSource)' == 'true'">$(DefaultItemExcludes);**/*.xaml.cs;**/*.xaml</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>

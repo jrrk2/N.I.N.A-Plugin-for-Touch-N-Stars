@@ -15,7 +15,7 @@ namespace TouchNStars.Server.Controllers;
 /// Controller for 10micron mount model builder / alignment model endpoints.
 /// Accesses the TenMicron plugin via reflection to avoid compile-time dependencies.
 /// </summary>
-public class TenMicronController : WebApiController
+public partial class TenMicronController : WebApiController
 {
     private static readonly Type TenMicronPluginType =
         Type.GetType("NINA.Joko.Plugin.TenMicron.TenMicronPlugin, NINA.Joko.Plugin.TenMicron");
@@ -259,6 +259,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Get, "/tenmicron/status")]
     public object GetStatus()
     {
+#if PINS
+        if (UseOrigin) return OriginStatus();
+#endif
         try
         {
             if (!IsPluginLoaded())
@@ -419,6 +422,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Get, "/tenmicron/alignment-model")]
     public async Task<object> GetAlignmentModel()
     {
+#if PINS
+        if (UseOrigin) return OriginAlignmentModel();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -512,6 +518,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Get, "/tenmicron/model-names")]
     public async Task<object> GetModelNames()
     {
+#if PINS
+        if (UseOrigin) return OriginModelNames();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -563,6 +572,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/dual-axis-tracking")]
     public async Task<object> SetDualAxisTracking()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -601,6 +613,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/refraction-correction")]
     public async Task<object> SetRefractionCorrection()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -639,6 +654,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/unattended-flip/disable")]
     public object DisableUnattendedFlip()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -668,6 +686,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/reset-meridian-limit")]
     public object ResetMeridianLimit()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -693,6 +714,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/reset-slew-settle")]
     public object ResetSlewSettle()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -718,6 +742,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/slew-rate")]
     public async Task<object> SetSlewRate()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -758,6 +785,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/horizon-high")]
     public async Task<object> SetHorizonHigh()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -794,6 +824,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/horizon-low")]
     public async Task<object> SetHorizonLow()
     {
+#if PINS
+        if (UseOrigin) return OriginNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -834,6 +867,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Get, "/tenmicron/builder-status")]
     public object GetBuilderStatus()
     {
+#if PINS
+        if (UseOrigin) return OriginBuilderStatus();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -908,6 +944,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Get, "/tenmicron/builder-options")]
     public object GetBuilderOptions()
     {
+#if PINS
+        if (UseOrigin) return OriginBuilderOptions();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -959,6 +998,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/builder-option")]
     public async Task<object> SetBuilderOption()
     {
+#if PINS
+        if (UseOrigin) return await OriginSetBuilderOption();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1036,6 +1078,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/reset-builder-options")]
     public object ResetBuilderOptions()
     {
+#if PINS
+        if (UseOrigin) return OriginResetBuilderOptions();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1091,6 +1136,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/generate-golden-spiral")]
     public async Task<object> GenerateGoldenSpiral()
     {
+#if PINS
+        if (UseOrigin) return await OriginGenerateGoldenSpiral();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1132,6 +1180,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/generate-sidereal-path")]
     public async Task<object> GenerateSiderealPath()
     {
+#if PINS
+        if (UseOrigin) return OriginSiderealPathNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1228,6 +1279,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/sidereal-path-coords-from-scope")]
     public async Task<object> SiderealPathCoordsFromScope()
     {
+#if PINS
+        if (UseOrigin) return OriginSiderealPathNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1259,6 +1313,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/sidereal-path-coords-from-sequence")]
     public object SiderealPathCoordsFromSequence()
     {
+#if PINS
+        if (UseOrigin) return OriginSiderealPathNotSupported();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1314,6 +1371,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/clear-points")]
     public object ClearPoints()
     {
+#if PINS
+        if (UseOrigin) return OriginClearPoints();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1346,6 +1406,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/build-model")]
     public object BuildModel()
     {
+#if PINS
+        if (UseOrigin) return OriginBuildModel();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1380,6 +1443,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/cancel-build")]
     public object CancelBuild()
     {
+#if PINS
+        if (UseOrigin) return OriginCancelBuild();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1409,6 +1475,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/stop-build")]
     public object StopBuild()
     {
+#if PINS
+        if (UseOrigin) return OriginStopBuild();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1440,6 +1509,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/load-model")]
     public async Task<object> LoadModel()
     {
+#if PINS
+        if (UseOrigin) return await OriginModelFile("loading a model", n => Builder.LoadModel(n), "Model '{0}' loaded");
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1470,6 +1542,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/save-model")]
     public async Task<object> SaveModel()
     {
+#if PINS
+        if (UseOrigin) return await OriginModelFile("saving a model", n => Builder.SaveModel(n), "Model saved as '{0}'");
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1500,6 +1575,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/delete-model")]
     public async Task<object> DeleteModel()
     {
+#if PINS
+        if (UseOrigin) return await OriginModelFile("deleting a model", n => Builder.DeleteModel(n), "Model '{0}' deleted");
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1532,6 +1610,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/delete-worst-star")]
     public async Task<object> DeleteWorstStar()
     {
+#if PINS
+        if (UseOrigin) return OriginDeleteWorstStar();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1645,6 +1726,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/refresh-alignment-model")]
     public async Task<object> RefreshAlignmentModel()
     {
+#if PINS
+        if (UseOrigin) return OriginAlignmentModel();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1725,6 +1809,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Post, "/tenmicron/clear-alignment")]
     public object ClearAlignment()
     {
+#if PINS
+        if (UseOrigin) return OriginClearAlignment().GetAwaiter().GetResult();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
@@ -1749,6 +1836,9 @@ public class TenMicronController : WebApiController
     [Route(HttpVerbs.Get, "/tenmicron/time")]
     public object GetMountTime()
     {
+#if PINS
+        if (UseOrigin) return OriginMountTime();
+#endif
         if (!IsPluginLoaded()) return PluginNotLoaded();
         try
         {
